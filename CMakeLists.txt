@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.15)
+include(FetchContent)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+project(coffeeshop CXX)
+
+FetchContent_Declare(
+        V8Lab
+        GIT_REPOSITORY https://github.com/Markus-5995/V8pp-Lab.git
+        GIT_TAG main)
+FetchContent_MakeAvailable(V8Lab)
+
+find_package(SFML REQUIRED)
+find_package(Boost REQUIRED)
+
+
+add_subdirectory(concepts)
+add_subdirectory(messagequeue)
+add_subdirectory(engine)
+add_subdirectory(simulation)
+add_subdirectory(visualisation)
+add_subdirectory(jscripts)
+
+add_executable(coffeeshop
+        src/main.cpp)
+
+target_link_libraries(coffeeshop
+        PUBLIC
+        Engine
+        Visualisation)
+
+target_compile_definitions(coffeeshop
+        PRIVATE
+        DEFAULT_JS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/jscripts")
+
+install(TARGETS coffeeshop DESTINATION "."
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib)

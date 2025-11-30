@@ -1,0 +1,14 @@
+add_library(Visualisation SHARED
+    include/visualisation/visualiser.hpp
+    visualiser.cpp)
+
+
+target_link_libraries(Visualisation
+    PUBLIC
+    MessageQueue
+    boost::boost
+    sfml::sfml)
+
+target_include_directories(Visualisation
+    PUBLIC
+    include)

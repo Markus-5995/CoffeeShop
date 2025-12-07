@@ -2,10 +2,10 @@ add_library(MessageQueue SHARED
     include/messagequeue/producer.hpp
     include/messagequeue/consumer.hpp
     include/messagequeue/message.hpp
-
+    include/messagequeue/messagebus.hpp
     consumer.cpp
     producer.cpp
-    messagebus.hpp)
+    messagebus.cpp)
 
 
 target_link_libraries(MessageQueue

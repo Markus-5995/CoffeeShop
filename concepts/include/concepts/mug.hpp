@@ -1,6 +1,7 @@
 #pragma once
 
 #include "entity.hpp"
+#include "actortypes.hpp"
 namespace CoffeeShop
 {
 
@@ -9,10 +10,11 @@ struct Mug : public Actor
     int temperature = 20;
     int fillStand = 0;
 
-    // Coffee below that temp is cold
-    static void setTemperatureThreshold(int threshold);
+    static constexpr int s_threshold {20};
 
     void act() override;
+    uint32_t type() const override;
+
     bool full() const;
     bool hot() const;
 
@@ -25,8 +27,6 @@ struct Mug : public Actor
 
 private:
     friend class boost::serialization::access;
-
-    static inline int s_threshold {20};
 };
 
 } // namespace CoffeeShop

@@ -1,22 +1,25 @@
 #include "messagequeue/consumer.hpp"
-#include "messagebus.hpp"
+#include "messagequeue/messagebus.hpp"
 namespace CoffeeShop
 {
-
-
-Consumer::Consumer() :
-    m_bus(std::make_unique<MessageBus>())
+Consumer::Consumer(const std::shared_ptr<MessageBus> &bus) :
+    m_bus(bus)
 {
 
 }
-
 
 Consumer::~Consumer() = default;
 
-
-Message Consumer::get()
+std::optional<Message> Consumer::get()
 {
-    return m_bus->get();
+    if (m_bus != nullptr)
+    {
+        return m_bus->get();
+    }
+    return {};
 }
 
+
 }
+
+

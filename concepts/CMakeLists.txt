@@ -7,6 +7,8 @@ add_library(Concepts SHARED
     include/concepts/coffeemachine.cpp
     include/concepts/mug.cpp
     include/concepts/simulationcontext.cpp
+    include/concepts/world.cpp
+    include/concepts/actortypes.hpp
 )
 
 target_include_directories(Concepts

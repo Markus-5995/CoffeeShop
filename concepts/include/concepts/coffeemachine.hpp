@@ -7,7 +7,11 @@ struct CoffeeMachine : public Actor
 {
 public:
     void act() override;
-    void interact(SimulationContext & sim) override;
+    void interact(World &world) override;
+    uint32_t type() const override
+    {
+        return ActorTypes::CoffeeMachineType;
+    }
 
     template<typename Archive>
     void serialize(Archive & archive, const unsigned int)
@@ -15,11 +19,12 @@ public:
         archive & boost::serialization::base_object<Actor>(*this);
         archive & temperature;
     }
+    static constexpr int temperatureLimit = 40;
 
+    int temperature = 20;
 private:
     friend class boost::serialization::access;
-    Mug* mug{};
-    int temperature = 20;
+    int slots = 2;
 };
 
 } // namespace CoffeeShop

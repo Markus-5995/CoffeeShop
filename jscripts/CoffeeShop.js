@@ -1,15 +1,21 @@
-let machine = new CoffeeShop.Machine();
-let mug = new CoffeeShop.Mug();
-let mug2 = new CoffeeShop.Mug();
-
-let sim = new CoffeeShop.Simulation([mug, mug2, machine]);
-
-sim.run(endCondition);
-
-"My Coffeemug is " + mug.hot()+ "(hot) " + mug.full() + "(full) after " + sim.runtime() +
-"(Iterations) The other mug is " + mug2.hot()+ "(hot) " + mug2.full() + "(full)";
-
 function endCondition()
 {
-    return sim.runtime() > 200;
+    return CoffeeShop.runtime > 200;
 }
+
+
+let interior = []
+
+for (let i = 0; i < 5; i++)
+{
+    interior.push(new CoffeeShop.Mug())
+}
+
+for (let i = 0; i < 2; i++)
+{
+    interior.push(new CoffeeShop.Machine())
+}
+
+CoffeeShop.start(interior);
+CoffeeShop.run(endCondition);
+"Simulation finished!"

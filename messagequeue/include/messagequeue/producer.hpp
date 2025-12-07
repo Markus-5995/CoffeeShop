@@ -8,12 +8,12 @@ class MessageBus;
 class Producer
 {
 public:
-    Producer();
+    Producer(const std::shared_ptr<MessageBus>& bus);
     void push(const Message& message);
     ~Producer();
 
 private:
-    std::unique_ptr<MessageBus> m_bus;
+    std::shared_ptr<MessageBus> m_bus;
 };
 
 }

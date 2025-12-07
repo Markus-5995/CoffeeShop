@@ -1,6 +1,9 @@
 add_library(Visualisation SHARED
     include/visualisation/visualiser.hpp
-    visualiser.cpp)
+    visualiser.cpp
+    shopgenerator.hpp shopgenerator.cpp
+    shapefactory.hpp shapefactory.cpp
+    mugshape.hpp mugshape.cpp)
 
 
 target_link_libraries(Visualisation

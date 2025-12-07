@@ -1,6 +1,7 @@
 #pragma once
 #include "message.hpp"
 #include <memory>
+#include <optional>
 namespace CoffeeShop
 {
 class MessageBus;
@@ -8,12 +9,12 @@ class MessageBus;
 class Consumer
 {
 public:
-    Consumer();
-    Message get();
+    Consumer(const std::shared_ptr<MessageBus>& bus);
+    std::optional<Message> get();
     ~Consumer();
 
 private:
-    std::unique_ptr<MessageBus> m_bus;
+    std::shared_ptr<MessageBus> m_bus;
 };
 
 }

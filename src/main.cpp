@@ -4,32 +4,48 @@
 #include "v8pp-lab/context.hpp"
 #include "engine/coffeeshopmodule.hpp"
 #include "visualisation/visualiser.hpp"
+#include "messagequeue/consumer.hpp"
+#include "messagequeue/messagebus.hpp"
+#include "messagequeue/producer.hpp"
 
 #include <thread>
 
-void runV8()
+void runV8(std::unique_ptr<CoffeeShop::Producer> producer)
 {
     using namespace V8ppLab;
     FileLocator locator (DEFAULT_JS_DIR);
-    constexpr CoffeeShop::CppModule coffeeModule {};
-
     std::tuple<std::vector<FileScript>> scripts{ locator.getScripts() };
-    std::tuple<std::vector<CoffeeShop::CppModule>> modules { std::vector {coffeeModule} };
+
+    CoffeeShop::CppModule coffeeModule(std::move(producer));
+    std::vector<CoffeeShop::CppModule> vec;
+    vec.push_back(std::move(coffeeModule));
+    std::tuple<std::vector<CoffeeShop::CppModule>> modules{ std::move(vec) };
+
 
     Runner<V8Context> runner {};
     runner.loadModules(modules);
     runner.run(scripts);
 }
 
-void runVisualizer()
+void runVisualizer(std::unique_ptr<CoffeeShop::Consumer> consumer)
 {
-    CoffeeShop::Visualiser().run();
+    CoffeeShop::Visualiser(std::move(consumer)).run();
 }
 
 int main()
 {
-    std::jthread v8Thread ([](){runV8();});
-    std::jthread visThread ([](){runVisualizer();});
+    auto bus = std::make_shared<CoffeeShop::MessageBus>();
+    auto consumer = std::make_unique<CoffeeShop::Consumer>(bus);
+    auto producer = std::make_unique<CoffeeShop::Producer>(bus);
+
+    std::jthread v8Thread([p = std::move(producer)]() mutable {
+        runV8(std::move(p));
+    });
+
+    std::jthread visThread([c = std::move(consumer)]() mutable {
+        runVisualizer(std::move(c));
+    });
+
 
     return 0;
 

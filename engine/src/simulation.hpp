@@ -4,33 +4,60 @@
 #include "concepts/simulationcontext.hpp"
 #include "boost/archive/binary_oarchive.hpp"
 #include "sstream"
+#include "v8wrappers.hpp"
+#include "ranges"
 
 namespace CoffeeShop
 {
+
+std::vector<std::shared_ptr<Actor>> toActors(const std::vector<V8Actor*> v8Actors)
+{
+    auto actorsView = v8Actors
+                      | std::views::filter([](V8Actor* actor){ return actor != nullptr; })
+                      | std::views::transform([](V8Actor* actor){ return actor->get(); });
+
+    return {actorsView.begin(), actorsView.end()};
+}
+
 class Simulation
 {
 public:
-    Simulation(std::vector<Actor*> actors) :
-        context(actors)
+    Simulation(std::unique_ptr<Producer> producer) :
+        m_producer(std::move(producer))
     {
 
     }
+
+    void start(std::vector<V8Actor*> v8actors)
+    {
+        context.reset(new SimulationContext(toActors(v8actors)));
+    }
+
     void run(v8::Local<v8::Function> function)
     {
+        if(context == nullptr)
+        {
+            return;
+        }
+
         auto* currentIsolate = v8::Isolate::GetCurrent();
         while (! endConditionMet(function, currentIsolate))
         {
-            context.runSimulation();
+            context->runSimulation();
             std::stringstream ss {};
             boost::archive::binary_oarchive archive {ss};
-            archive << context.world;
+            archive << context->world;
 
-            m_producer.push(Message(ss.str()));
+            m_producer->push(Message(ss.str()));
         }
     }
     int runtime() const
     {
-        return context.runtime();
+        if (context != nullptr)
+        {
+            return context->world.m_runtime;
+        }
+        return -1;
     }
 
 private:
@@ -47,9 +74,8 @@ private:
         return true;
     }
 
-
-    SimulationContext context;
-    Producer m_producer {};
+    std::unique_ptr<SimulationContext> context;
+    std::unique_ptr<Producer> m_producer;
 };
 
 } // namespace CoffeeShop

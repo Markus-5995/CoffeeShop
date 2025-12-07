@@ -3,15 +3,16 @@
 namespace CoffeeShop
 {
 
-void Mug::setTemperatureThreshold(int threshold)
-{
-    s_threshold = threshold;
-}
 
 void Mug::act()
 {
     // A mug is just cooling of in a linear fashion
-    temperature -= 1;
+    temperature = std::max(0, temperature - 5);
+}
+
+uint32_t Mug::type() const
+{
+    return ActorTypes::MugType;
 }
 
 bool Mug::full() const

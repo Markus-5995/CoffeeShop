@@ -6,15 +6,10 @@ namespace CoffeeShop
 
 struct SimulationContext
 {
-    bool transferOwnership(Owner* newOwner, Actor* target);
-    std::vector<Actor*> actors();
-
-    SimulationContext(const std::vector<Actor*>& newActors);
-
+    SimulationContext(const std::vector<std::shared_ptr<Actor>>& newActors);
     void runSimulation();
-
-    int runtime() const;
     World world {};
+    static inline uint32_t nextId = 1;
 };
 
 }

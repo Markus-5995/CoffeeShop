@@ -9,6 +9,7 @@ add_library(Visualisation SHARED
 target_link_libraries(Visualisation
     PUBLIC
     MessageQueue
+    PRIVATE
     boost::boost
     sfml::sfml)
 

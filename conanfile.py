@@ -9,9 +9,9 @@ class coffeeshopRecipe(ConanFile):
 
     # Optional metadata
     license = "MIT"
-    author = "Max Mustermann"
+    author = "Max Musterman"
     description = "Who never wanted to own a coffee shop? I certainly didn't."
-    topics = ("C++20", "V8", "SFML")
+    topics = ("C++20", "V8", "SFML", "XML")
 
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
@@ -22,6 +22,8 @@ class coffeeshopRecipe(ConanFile):
     def requirements(self):
         self.requires("sfml/2.6.2")
         self.requires("boost/1.89.0")
+        self.requires("libxml2/2.15.0")
+        self.requires("gtest/1.17.0")
 
     def layout(self):
         cmake_layout(self)

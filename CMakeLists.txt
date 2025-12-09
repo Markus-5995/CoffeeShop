@@ -14,13 +14,14 @@ FetchContent_MakeAvailable(V8Lab)
 
 find_package(SFML REQUIRED)
 find_package(Boost REQUIRED)
-
+find_package(libxml2 REQUIRED)
+find_package(GTest REQUIRED)
 
 add_subdirectory(concepts)
 add_subdirectory(messagequeue)
 add_subdirectory(engine)
-add_subdirectory(simulation)
 add_subdirectory(visualisation)
+add_subdirectory(report)
 add_subdirectory(jscripts)
 
 add_executable(coffeeshop
@@ -29,7 +30,10 @@ add_executable(coffeeshop
 target_link_libraries(coffeeshop
         PUBLIC
         Engine
-        Visualisation)
+        Visualisation
+        Report
+        Boost::boost
+        sfml::sfml)
 
 target_compile_definitions(coffeeshop
         PRIVATE

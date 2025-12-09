@@ -12,6 +12,7 @@ target_link_libraries(Engine
     V8ppLab
     Concepts
     MessageQueue
+    PRIVATE
     boost::boost)
 
 target_include_directories(Engine

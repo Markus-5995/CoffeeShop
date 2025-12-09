@@ -16,7 +16,7 @@ target_include_directories(Concepts
     include)
 
 target_link_libraries(Concepts
-    PUBLIC
+    PRIVATE
     Boost::boost)
 
 set_target_properties(Concepts PROPERTIES LINKER_LANGUAGE CXX)

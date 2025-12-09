@@ -7,10 +7,10 @@
 #include "messagequeue/consumer.hpp"
 #include "messagequeue/messagebus.hpp"
 #include "messagequeue/producer.hpp"
-
+#include "report/simulationreport.hpp"
 #include <thread>
 
-void runV8(std::unique_ptr<CoffeeShop::Producer> producer)
+void runV8(std::unique_ptr<CoffeeShop::Producer> producer, std::stop_source&& src)
 {
     using namespace V8ppLab;
     FileLocator locator (DEFAULT_JS_DIR);
@@ -25,6 +25,7 @@ void runV8(std::unique_ptr<CoffeeShop::Producer> producer)
     Runner<V8Context> runner {};
     runner.loadModules(modules);
     runner.run(scripts);
+    src.request_stop();
 }
 
 void runVisualizer(std::unique_ptr<CoffeeShop::Consumer> consumer)
@@ -32,20 +33,32 @@ void runVisualizer(std::unique_ptr<CoffeeShop::Consumer> consumer)
     CoffeeShop::Visualiser(std::move(consumer)).run();
 }
 
+void runReport(std::unique_ptr<CoffeeShop::Consumer> consumer, std::stop_token token)
+{
+    CoffeeShop::SimulationReport(std::move(consumer)).run(token);
+}
+
 int main()
 {
-    auto bus = std::make_shared<CoffeeShop::MessageBus>();
-    auto consumer = std::make_unique<CoffeeShop::Consumer>(bus);
+    auto bus = std::make_shared<CoffeeShop::MessageBus>(CoffeeShop::MessageBus::MultiConsumerQueue);
+    auto visconsumer = std::make_unique<CoffeeShop::Consumer>(bus);
+    auto repconsumer = std::make_unique<CoffeeShop::Consumer>(bus);
     auto producer = std::make_unique<CoffeeShop::Producer>(bus);
 
-    std::jthread v8Thread([p = std::move(producer)]() mutable {
-        runV8(std::move(p));
+    std::stop_source stopSrc;
+    std::stop_token stopToken = stopSrc.get_token();
+
+    std::jthread v8Thread([p = std::move(producer), s = std::move(stopSrc)]() mutable {
+        runV8(std::move(p), std::move(s));
     });
 
-    std::jthread visThread([c = std::move(consumer)]() mutable {
+    std::jthread visThread([c = std::move(visconsumer)]() mutable {
         runVisualizer(std::move(c));
     });
 
+    std::jthread repThread([c = std::move(repconsumer), s = stopToken]() mutable {
+        runReport(std::move(c), s);
+    });
 
     return 0;
 

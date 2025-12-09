@@ -2,6 +2,7 @@
 #include "message.hpp"
 #include <memory>
 #include <optional>
+#include "messagequeue/messagebus.hpp"
 namespace CoffeeShop
 {
 class MessageBus;
@@ -15,6 +16,7 @@ public:
 
 private:
     std::shared_ptr<MessageBus> m_bus;
+    MessageBus::ConsumerId m_id;
 };
 
 }

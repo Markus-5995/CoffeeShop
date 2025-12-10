@@ -5,12 +5,16 @@ add_library(MessageQueue SHARED
     include/messagequeue/messagebus.hpp
     consumer.cpp
     producer.cpp
-    messagebus.cpp)
+    messagebus.cpp
+    driverimplementations.hpp
+    tcpipdriver.hpp tcpipdriver.cpp)
 
 
 target_link_libraries(MessageQueue
     PUBLIC
-    Concepts)
+    Concepts
+    PRIVATE
+    boost::boost)
 
 target_include_directories(MessageQueue
     PUBLIC

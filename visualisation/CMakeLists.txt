@@ -16,3 +16,10 @@ target_link_libraries(Visualisation
 target_include_directories(Visualisation
     PUBLIC
     include)
+
+add_executable(VisualisationApp
+    main.cpp)
+
+target_link_libraries(VisualisationApp
+    Visualisation)
+

@@ -1,5 +1,12 @@
 #include "visualisation/visualiser.hpp"
 #include "shopgenerator.hpp"
+#include "iostream"
+#include <boost/archive/text_iarchive.hpp>
+#include <sstream>
+#include "concepts/world.hpp"
+#include "SFML/Graphics.hpp"
+#include <format>
+
 namespace CoffeeShop
 {
 

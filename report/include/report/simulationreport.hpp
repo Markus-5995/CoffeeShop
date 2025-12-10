@@ -8,7 +8,7 @@ class SimulationReport
 {
 public:
     SimulationReport(std::unique_ptr<Consumer> consumer);
-    void run(std::stop_token stop);
+    void run(std::stop_token stop = std::stop_token());
 
 private:
     std::unique_ptr<Consumer> consumer;

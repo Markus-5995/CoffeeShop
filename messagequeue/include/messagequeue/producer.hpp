@@ -1,5 +1,5 @@
 #pragma once
-#include "message.hpp"
+#include "messagebus.hpp"
 #include <memory>
 namespace CoffeeShop
 {
@@ -14,6 +14,7 @@ public:
 
 private:
     std::shared_ptr<MessageBus> m_bus;
+    MessageBus::ProducerId m_id {};
 };
 
 }

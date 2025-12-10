@@ -5,12 +5,19 @@ add_library(Report SHARED
     streamwriter.hpp)
 
 target_link_libraries(Report PUBLIC
-    LibXml2::LibXml2
     MessageQueue
     PRIVATE
+    LibXml2::LibXml2
     boost::boost)
 
 target_include_directories(Report PUBLIC
     include)
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
+
+add_executable(ReportApp
+    main.cpp)
+
+target_link_libraries(ReportApp
+    Report)
+

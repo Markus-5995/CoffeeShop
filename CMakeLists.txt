@@ -4,7 +4,7 @@ include(FetchContent)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-project(coffeeshop CXX)
+project(CoffeeShop CXX)
 
 FetchContent_Declare(
         V8Lab
@@ -24,22 +24,12 @@ add_subdirectory(visualisation)
 add_subdirectory(report)
 add_subdirectory(jscripts)
 
-add_executable(coffeeshop
+
+add_executable(CoffeeShop
         src/main.cpp)
 
-target_link_libraries(coffeeshop
+target_link_libraries(CoffeeShop
         PUBLIC
         Engine
         Visualisation
-        Report
-        Boost::boost
-        sfml::sfml)
-
-target_compile_definitions(coffeeshop
-        PRIVATE
-        DEFAULT_JS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/jscripts")
-
-install(TARGETS coffeeshop DESTINATION "."
-        RUNTIME DESTINATION bin
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib)
+        Report)

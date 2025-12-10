@@ -1,4 +1,4 @@
-#include "engine/coffeeshopmodule.hpp"
+#include "coffeeshopmodule.hpp"
 #include "simulation.hpp"
 #include "v8pp/class.hpp"
 namespace CoffeeShop

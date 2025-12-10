@@ -10,16 +10,19 @@ class MessageBus
 {
 public:
     using ConsumerId = uint32_t;
+    using ProducerId = uint32_t;
     enum Driver
     {
         Undefined,
         SimpleQueue,
-        MultiConsumerQueue
+        MultiConsumerQueue,
+        TcpIp
     };
     MessageBus(Driver driver);
     ~MessageBus();
     ConsumerId registerConsumer();
-    void push(const Message& message);
+    ProducerId registerProducer();
+    void push(ProducerId id, const Message& message);
     Message get(ConsumerId id);
 
 private:

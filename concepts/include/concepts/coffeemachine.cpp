@@ -36,7 +36,6 @@ void CoffeeMachine::interact(World &world)
                 {
                     if (world.transferOwnership(this, potentialMug))
                     {
-                        std::cout << "Snatching a mug" << potentialMug->id() << std::endl;
                         return;
                     }
                 }
@@ -59,8 +58,6 @@ void CoffeeMachine::interact(World &world)
             {
                 // Be free mug!!
                 world.transferOwnership(nullptr, mug);
-
-                std::cout << "Dropping a mug" << mug->id() << std::endl;
             }
         }
     }

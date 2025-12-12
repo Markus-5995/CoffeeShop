@@ -10,10 +10,5 @@ int main(int argc, char *argv[])
     Engine engine(std::make_unique<Producer>(bus));
 
     engine.run(std::stop_source());
-
-    while(true)
-    {
-        sleep(10);
-    }
     return 0;
 }

@@ -1,6 +1,6 @@
 function endCondition()
 {
-    return CoffeeShop.runtime > 50;
+    return CoffeeShop.runtime > 250;
 }
 
 

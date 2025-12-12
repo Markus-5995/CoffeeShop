@@ -6,6 +6,7 @@
 #include "sstream"
 #include "v8wrappers.hpp"
 #include "ranges"
+#include <iostream>
 
 namespace CoffeeShop
 {
@@ -48,6 +49,7 @@ public:
             boost::archive::binary_oarchive archive {ss};
             archive << context->world;
 
+            sleep(1);
             m_producer->push(Message(ss.str()));
         }
     }

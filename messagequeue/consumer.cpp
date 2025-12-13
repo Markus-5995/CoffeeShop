@@ -18,6 +18,24 @@ std::optional<Message> Consumer::get()
     return {};
 }
 
+std::optional<Message> Consumer::waitForNext()
+{
+    if (m_bus != nullptr)
+    {
+        return m_bus->waitForNext(m_id);
+    }
+    return {};
+}
+
+bool Consumer::alive() const
+{
+    if (m_bus != nullptr)
+    {
+        return m_bus->alive();
+    }
+    return false;
+}
+
 
 }
 

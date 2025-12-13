@@ -1,10 +1,10 @@
 #pragma once
 #include "messagequeue/message.hpp"
 #include <memory>
+#include <optional>
 
 namespace CoffeeShop
 {
-
 
 class MessageBus
 {
@@ -23,7 +23,9 @@ public:
     ConsumerId registerConsumer();
     ProducerId registerProducer();
     void push(ProducerId id, const Message& message);
-    Message get(ConsumerId id);
+    std::optional<Message> get(ConsumerId id);
+    std::optional<Message> waitForNext(ConsumerId id);
+    bool alive() const;
 
 private:
     struct Impl;

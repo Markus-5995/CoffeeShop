@@ -8,12 +8,12 @@ TcpIpDriver::TcpIpDriver()
 
 }
 
-void TcpIpDriver::registerAsServer()
+void TcpIpDriver::registerAsServer(MessageBus::ProducerId)
 {
     communciation.emplace<TcpServer>();
 }
 
-void TcpIpDriver::registerAsClient()
+void TcpIpDriver::registerAsClient(MessageBus::ConsumerId)
 {
     communciation.emplace<TcpClient>();
 }
@@ -28,13 +28,40 @@ void TcpIpDriver::push(const Message &message)
 
 }
 
-Message TcpIpDriver::get()
+std::optional<Message> TcpIpDriver::tryPop(MessageBus::ConsumerId)
 {
     if (auto* client = std::get_if<TcpClient>(&communciation))
     {
-        return client->get();
+        return client->tryPop();
     }
     throw std::runtime_error("Cannot get messages as server!");
+}
+
+std::optional<Message> TcpIpDriver::waitAndTryPop(MessageBus::ConsumerId)
+{
+    if (auto* client = std::get_if<TcpClient>(&communciation))
+    {
+        return client->waitAndTryPop();
+    }
+    throw std::runtime_error("Cannot get messages as server!");
+}
+
+bool TcpIpDriver::alive() const
+{
+    return std::visit(
+        [](auto& tcp) {
+            using T = std::decay_t<decltype(tcp)>;
+
+            if constexpr (std::is_same_v<T, std::monostate>)
+            {
+                return false;
+            }
+            else
+            {
+                return tcp.alive();
+            }
+        },
+        communciation);
 }
 
 

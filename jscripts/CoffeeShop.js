@@ -1,8 +1,7 @@
 function endCondition()
 {
-    return CoffeeShop.runtime > 250;
+    return CoffeeShop.runtime > 20;
 }
-
 
 let interior = []
 

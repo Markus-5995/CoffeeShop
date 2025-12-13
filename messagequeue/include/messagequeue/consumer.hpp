@@ -12,6 +12,8 @@ class Consumer
 public:
     Consumer(const std::shared_ptr<MessageBus>& bus);
     std::optional<Message> get();
+    std::optional<Message> waitForNext();
+    bool alive() const;
     ~Consumer();
 
 private:

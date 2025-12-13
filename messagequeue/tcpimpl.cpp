@@ -35,21 +35,20 @@ TcpClient::TcpClient() :
 TcpClient::~TcpClient()
 {
     thread.get_stop_source().request_stop();
+    safeQueue.close();
     socket.close();
     guard.reset();
     ioContext.stop();
 }
 
-Message TcpClient::get()
+std::optional<Message> TcpClient::tryPop()
 {
-    std::unique_lock lock(mtx);
-    if(messageQueue.empty())
-    {
-        return Message("");
-    }
-    Message m = messageQueue.front();
-    messageQueue.pop();
-    return m;
+    return safeQueue.tryPop(0);
+}
+
+std::optional<Message> TcpClient::waitAndTryPop()
+{
+    return safeQueue.waitAndTryPop(0);
 }
 
 void TcpClient::readCompleted(const error_code &error, std::size_t n)
@@ -60,17 +59,26 @@ void TcpClient::readCompleted(const error_code &error, std::size_t n)
     }
     if (!error)
     {
-        std::unique_lock lock(mtx);
         if (n > 0)
         {
             Message m({buffer.cbegin(), buffer.cbegin() + n});
-            messageQueue.push(m);
+            safeQueue.push(m);
         }
         socket.async_read_some(boost::asio::buffer(buffer.data(), buffer.size()),
                                std::bind(&TcpClient::readCompleted, this,
                                          placeholders::error,
                                          placeholders::bytes_transferred));
     }
+    else
+    {
+        connectionBroken.store(true);
+        safeQueue.close();
+    }
+}
+
+bool TcpClient::alive() const
+{
+    return ! connectionBroken.load();
 }
 
 
@@ -185,6 +193,11 @@ void TcpServer::push(const Message &message)
                                           ptr->push(message);
                                       }
                                   }));
+}
+
+bool TcpServer::alive() const
+{
+    return true;
 }
 
 void TcpServer::listen()

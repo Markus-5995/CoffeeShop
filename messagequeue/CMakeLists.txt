@@ -6,9 +6,11 @@ add_library(MessageQueue SHARED
     consumer.cpp
     producer.cpp
     messagebus.cpp
-    driverimplementations.hpp
+    driverconcept.hpp
     tcpipdriver.hpp tcpipdriver.cpp
-    tcpimpl.hpp tcpimpl.cpp)
+    tcpimpl.hpp tcpimpl.cpp
+    simplequeuedriver.hpp simplequeuedriver.cpp
+    multiconsumerqueuedriver.hpp multiconsumerqueuedriver.cpp)
 
 
 target_link_libraries(MessageQueue

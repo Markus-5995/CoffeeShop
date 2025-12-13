@@ -8,8 +8,6 @@ class Visualiser
 {
 public:
     Visualiser(std::unique_ptr<Consumer> consumer);
-
-    // BLOCKS
     void run();
 
 private:

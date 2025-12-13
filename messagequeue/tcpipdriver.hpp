@@ -1,16 +1,19 @@
 #pragma once
 #include "tcpimpl.hpp"
+#include "messagequeue/messagebus.hpp"
 namespace CoffeeShop
 {
 class TcpIpDriver
 {
 public:
     TcpIpDriver();
-    void registerAsServer();
-    void registerAsClient();
+    void registerAsServer(MessageBus::ProducerId);
+    void registerAsClient(MessageBus::ConsumerId);
 
     void push(const Message& message);
-    Message get();
+    std::optional<Message> tryPop(MessageBus::ConsumerId id);
+    std::optional<Message> waitAndTryPop(MessageBus::ConsumerId id);
+    bool alive() const;
 private:
     std::variant<std::monostate, TcpServer, TcpClient> communciation;
 };

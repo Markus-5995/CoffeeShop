@@ -15,11 +15,11 @@ SimulationReport::SimulationReport(std::unique_ptr<Consumer> consumer) :
 
 void SimulationReport::run(std::stop_token stop)
 {
-    SimulationParser parser ("my.xml");
-    while(! stop.stop_requested())
+    SimulationParser parser ("/home/markus/my.xml");
+    while(! stop.stop_requested() && consumer->alive())
     {
         std::string msg;
-        auto potentialMessage = consumer->get();
+        auto potentialMessage = consumer->waitForNext();
         if (potentialMessage.has_value())
         {
             msg = *potentialMessage;

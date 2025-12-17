@@ -3,14 +3,14 @@
 #include <unordered_map>
 #include <algorithm>
 #include <string>
-
+#include "conceptexport.hpp"
 #include <boost/archive/binary_iarchive.hpp>
 namespace CoffeeShop
 {
 
 class World;
 
-class Actor
+class CONCEPTS_API Actor
 {
     friend class boost::serialization::access;
 public:

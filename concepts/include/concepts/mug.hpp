@@ -2,10 +2,11 @@
 
 #include "entity.hpp"
 #include "actortypes.hpp"
+#include "conceptexport.hpp"
 namespace CoffeeShop
 {
 
-struct Mug : public Actor
+struct CONCEPTS_API Mug : public Actor
 {
     int temperature = 20;
     int fillStand = 0;

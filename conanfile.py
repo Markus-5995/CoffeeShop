@@ -21,7 +21,7 @@ class coffeeshopRecipe(ConanFile):
 
     def requirements(self):
         self.requires("sfml/2.6.2")
-        self.requires("boost/1.89.0")
+        self.requires("boost/1.85.0")
         self.requires("libxml2/2.15.0")
         self.requires("gtest/1.17.0")
 

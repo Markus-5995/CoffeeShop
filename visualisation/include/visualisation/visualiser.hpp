@@ -1,10 +1,10 @@
 #pragma once
 #include "messagequeue/consumer.hpp"
-
+#include "visualisationexport.hpp"
 namespace CoffeeShop
 {
 
-class Visualiser
+class VIS_API Visualiser
 {
 public:
     Visualiser(std::unique_ptr<Consumer> consumer);

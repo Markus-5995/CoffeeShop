@@ -5,7 +5,7 @@ namespace CoffeeShop
 {
 class MessageBus;
 
-class Producer
+class MSGQ_API Producer
 {
 public:
     Producer(const std::shared_ptr<MessageBus>& bus);

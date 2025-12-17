@@ -7,7 +7,7 @@ namespace CoffeeShop
 {
 class MessageBus;
 
-class Consumer
+class MSGQ_API Consumer
 {
 public:
     Consumer(const std::shared_ptr<MessageBus>& bus);

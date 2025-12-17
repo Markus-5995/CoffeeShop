@@ -2,11 +2,12 @@
 #include "messagequeue/message.hpp"
 #include <memory>
 #include <optional>
+#include "messagequeueexport.hpp"
 
 namespace CoffeeShop
 {
 
-class MessageBus
+class MSGQ_API MessageBus
 {
 public:
     using ConsumerId = uint32_t;

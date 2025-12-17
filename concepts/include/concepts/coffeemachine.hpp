@@ -1,9 +1,10 @@
 #pragma once
 #include "mug.hpp"
+#include "conceptexport.hpp"
 namespace CoffeeShop
 {
 
-struct CoffeeMachine : public Actor
+class CONCEPTS_API CoffeeMachine : public Actor
 {
 public:
     void act() override;

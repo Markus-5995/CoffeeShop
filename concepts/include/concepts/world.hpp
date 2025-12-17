@@ -5,11 +5,12 @@
 #include "boost/serialization/unordered_map.hpp"
 #include "boost/serialization/shared_ptr.hpp"
 #include <set>
+#include "conceptexport.hpp"
 namespace CoffeeShop
 {
 using Owner = Actor;
 
-struct World
+struct CONCEPTS_API World
 {
     bool transferOwnership(Owner* newOwner, Actor* target);
     std::vector<Actor*> actors(uint32_t types = 0xFFFFFFFF);

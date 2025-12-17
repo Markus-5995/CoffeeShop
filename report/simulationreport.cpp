@@ -13,9 +13,10 @@ SimulationReport::SimulationReport(std::unique_ptr<Consumer> consumer) :
 
 }
 
-void SimulationReport::run(std::stop_token stop)
+void SimulationReport::run(std::string_view path, std::stop_token stop)
 {
-    SimulationParser parser ("/home/markus/my.xml");
+
+    SimulationParser parser (path);
     while(! stop.stop_requested() && consumer->alive())
     {
         std::string msg;

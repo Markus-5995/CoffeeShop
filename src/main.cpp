@@ -5,6 +5,7 @@
 #include "messagequeue/producer.hpp"
 #include "report/simulationreport.hpp"
 #include <thread>
+#include <filesystem>
 
 void runEngine(std::unique_ptr<CoffeeShop::Producer> producer, std::stop_source&& src)
 {
@@ -18,7 +19,8 @@ void runVisualizer(std::unique_ptr<CoffeeShop::Consumer> consumer)
 
 void runReport(std::unique_ptr<CoffeeShop::Consumer> consumer, std::stop_token token)
 {
-    CoffeeShop::SimulationReport(std::move(consumer)).run(token);
+    std::filesystem::path xmlFile = std::filesystem::current_path() / "MyXML.xml";
+    CoffeeShop::SimulationReport(std::move(consumer)).run(xmlFile.string(), token);
 }
 
 int main()
@@ -31,7 +33,7 @@ int main()
     std::stop_source stopSrc;
     std::stop_token stopToken = stopSrc.get_token();
 
-    std::jthread v8Thread([p = std::move(producer), s = std::move(stopSrc)]() mutable {
+    std::jthread simThread([p = std::move(producer), s = std::move(stopSrc)]() mutable {
         runEngine(std::move(p), std::move(s));
     });
 

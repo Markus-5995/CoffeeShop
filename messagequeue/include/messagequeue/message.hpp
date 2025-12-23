@@ -4,14 +4,32 @@
 #include "messagequeueexport.hpp"
 namespace CoffeeShop
 {
-struct MSGQ_API Message
+class MSGQ_API Message
 {
-    Message(std::string_view message) : payload(message.begin(), message.end()) {}
-    std::vector<std::uint8_t> payload {};
+public:
+    using PayLoad = std::vector<std::uint8_t>;
+
+    Message() = default;
+    explicit Message(std::string_view message) : m_payload(message.begin(), message.end()) {}
+    explicit Message(PayLoad&& payload) : m_payload(std::move(payload)) {}
+    
     operator std::string()
     {
-        return std::string(payload.begin(), payload.end());
+        return std::string(m_payload.begin(), m_payload.end());
     }
+
+    size_t size() const
+    {
+        return m_payload.size();
+    }
+
+
+    const PayLoad& payload() const
+    {
+        return m_payload;
+    }
+private:
+    PayLoad m_payload{};
 };
 
 }

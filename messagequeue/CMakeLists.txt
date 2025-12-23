@@ -9,7 +9,8 @@ add_library(MessageQueue SHARED
     messagebus.cpp
     driverconcept.hpp
     tcpipdriver.hpp tcpipdriver.cpp
-    tcpimpl.hpp tcpimpl.cpp
+    tcpserver.cpp tcpserver.hpp
+    tcpclient.hpp tcpclient.cpp
     simplequeuedriver.hpp simplequeuedriver.cpp
     multiconsumerqueuedriver.hpp multiconsumerqueuedriver.cpp)
 

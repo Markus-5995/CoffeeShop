@@ -14,7 +14,7 @@ namespace CoffeeShop
 
 	void JsonSimulation::run()
 	{
-		int timeout = 50;
+		int timeout = 25;
 		std::vector<std::shared_ptr<Actor>> actors;
 
 		actors.push_back(std::make_shared<Mug>());

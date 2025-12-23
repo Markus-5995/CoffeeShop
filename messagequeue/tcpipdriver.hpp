@@ -1,7 +1,8 @@
 #pragma once
-#include "tcpimpl.hpp"
+#include "tcpserver.hpp"
+#include "tcpclient.hpp"
 #include "messagequeue/messagebus.hpp"
-#include<variant>
+#include <variant>
 namespace CoffeeShop
 {
 class TcpIpDriver

@@ -1,0 +1,1 @@
+add_library(__JSON_RECIPE_IDE_HELPER INTERFACE CoffeeShopConfig.json)

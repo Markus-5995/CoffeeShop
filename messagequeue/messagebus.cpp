@@ -1,4 +1,6 @@
 #include "messagequeue/messagebus.hpp"
+#include "tcpipdriver.hpp"
+#include "multiconsumerqueuedriver.hpp"
 #include "driverconcept.hpp"
 #include <iostream>
 namespace CoffeeShop
@@ -6,12 +8,15 @@ namespace CoffeeShop
 
 struct MessageBus::Impl
 {
-    std::variant<SimpleQueueDriver, MultiConsumerQueueDriver, TcpIpDriver> m_driver;
+    using Drivers = std::variant<SimpleQueueDriver, MultiConsumerQueueDriver, TcpIpDriver>;
+    Drivers m_driver;
     MessageBus::ConsumerId nextConsumerId {0};
     MessageBus::ProducerId nextProducerId {0};
+
+    static_assert(DriverVariant<Drivers>::value, "All drivers must adhere to the Driver concept!");
 };
 
-MessageBus::MessageBus(Driver driver) :
+MessageBus::MessageBus(DriverType driver) :
     m_impl(new Impl())
 {
     switch(driver)
@@ -36,7 +41,7 @@ MessageBus::ProducerId MessageBus::registerProducer()
 {
     uint32_t& nextId = m_impl->nextProducerId;
     nextId++;
-    std::visit([nextId](auto& driver) { driver.registerAsServer(nextId);},
+    std::visit([nextId](auto & driver) { driver.registerAsServer(nextId);},
                m_impl->m_driver);
     return nextId;
 }

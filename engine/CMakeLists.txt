@@ -1,44 +1,12 @@
+add_subdirectory(V8Engine)
+add_subdirectory(CppEngine)
+add_subdirectory(JSONEngine)
+
+
 add_library(Engine SHARED
     include/engine/engine.hpp
     include/engine/engineexport.hpp
     engine.cpp)
-
-if (V8_SUPPORT)
-    add_library(V8Engine STATIC
-    V8Engine/coffeeshopmodule.hpp
-    V8Engine/coffeeshopmodule.cpp
-    V8Engine/simulation.hpp 
-    V8Engine/simulation.cpp
-    V8Engine/v8wrappers.hpp)
-
-    target_link_libraries(V8Engine
-    PUBLIC
-    Concepts
-    MessageQueue
-    PRIVATE
-    V8ppLab
-    boost::boost)
-    
-    target_compile_definitions(V8Engine
-        PRIVATE
-        DEFAULT_JS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../jscripts")
-    
-    target_compile_definitions(Engine PRIVATE V8_SUPPORT)
-else()
-    add_library(V8Engine INTERFACE)
-endif()
-
-add_library(JSONEngine STATIC
-    JSONEngine/simulation.hpp
-    JSONEngine/simulation.cpp)
-
-target_link_libraries(JSONEngine
-    PUBLIC
-    Concepts
-    MessageQueue
-    PRIVATE
-    boost::boost)
-
 
 target_link_libraries(Engine
     PUBLIC
@@ -46,8 +14,12 @@ target_link_libraries(Engine
     MessageQueue
     PRIVATE
     V8Engine
-    JSONEngine
-    boost::boost)
+    CppEngine
+    JSONEngine)
+    
+target_compile_definitions(Engine
+    PRIVATE
+    DEFAULT_JSON_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../jsonrecipes/CoffeeShopConfig.json")
 
 target_include_directories(Engine
     PUBLIC

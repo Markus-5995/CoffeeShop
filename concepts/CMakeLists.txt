@@ -17,7 +17,7 @@ target_include_directories(Concepts
     include)
 
 target_link_libraries(Concepts
-    PRIVATE
+    PUBLIC
     boost::boost)
 
 target_compile_definitions(Concepts PRIVATE EXPORT_CONCEPTS)

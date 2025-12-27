@@ -7,7 +7,8 @@
 #include "v8pp-lab/context.hpp"
 #include "coffeeshopmodule.hpp"
 #endif // V8_SUPPORT
-#include "JSONEngine/simulation.hpp"
+#include "JSONEngine/jsonsim.hpp"
+#include "CppEngine/simulation.hpp"
 
 
 namespace CoffeeShop
@@ -35,9 +36,15 @@ namespace CoffeeShop
 	}
 
 
+	void runCpp(std::unique_ptr<Producer> producer)
+	{
+		CppSimulation simulation(std::move(producer));
+		simulation.run();
+	}
+
 	void runJSON(std::unique_ptr<Producer> producer)
 	{
-		JsonSimulation simulation(std::move(producer), "MyJson");
+		JsonSimulation simulation(std::move(producer), DEFAULT_JSON_DIR);
 		simulation.run();
 	}
 
@@ -53,6 +60,9 @@ namespace CoffeeShop
 		{
 		case EngineType::V8Engine:
 			runV8(std::move(producer));
+			break;
+		case EngineType::CppEngine:
+			runCpp(std::move(producer));
 			break;
 		case EngineType::JSONEngine:
 			runJSON(std::move(producer));

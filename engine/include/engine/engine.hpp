@@ -11,7 +11,8 @@ public:
     enum class EngineType
     {
         V8Engine,
-        JSONEngine
+        JSONEngine,
+        CppEngine
     };
     explicit Engine(std::unique_ptr<Producer> producer);
     void run(std::stop_source&& stopSrc, EngineType engineType = EngineType::JSONEngine);

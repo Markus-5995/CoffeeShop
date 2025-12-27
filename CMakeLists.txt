@@ -21,7 +21,7 @@ endif()
 find_package(SFML REQUIRED)
 find_package(Boost REQUIRED)
 find_package(libxml2 REQUIRED)
-find_package(GTest REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(concepts)
 add_subdirectory(messagequeue)
@@ -29,6 +29,7 @@ add_subdirectory(engine)
 add_subdirectory(visualisation)
 add_subdirectory(report)
 add_subdirectory(jscripts)
+add_subdirectory(jsonrecipes)
 
 
 add_executable(CoffeeShop

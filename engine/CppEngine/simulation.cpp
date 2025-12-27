@@ -6,13 +6,13 @@
 
 namespace CoffeeShop
 {
-	JsonSimulation::JsonSimulation(std::unique_ptr<Producer> producer, std::string_view path) :
+	CppSimulation::CppSimulation(std::unique_ptr<Producer> producer) :
 		m_producer(std::move(producer))
 	{
 
 	}
 
-	void JsonSimulation::run()
+	void CppSimulation::run()
 	{
 		int timeout = 25;
 		std::vector<std::shared_ptr<Actor>> actors;

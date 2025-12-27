@@ -12,14 +12,14 @@ class MSGQ_API MessageBus
 public:
     using ConsumerId = uint32_t;
     using ProducerId = uint32_t;
-    enum Driver
+    enum DriverType
     {
         Undefined,
         SimpleQueue,
         MultiConsumerQueue,
         TcpIp
     };
-    MessageBus(Driver driver);
+    MessageBus(DriverType driver);
     ~MessageBus();
     ConsumerId registerConsumer();
     ProducerId registerProducer();

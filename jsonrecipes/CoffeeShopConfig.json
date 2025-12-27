@@ -1,0 +1,11 @@
+{
+  "inventory": [
+    { "type": "mug" },
+    { "type": "mug" },
+    { "type": "mug" },
+    { "type": "mug" },
+    { "type": "coffeemachine" },
+    { "type": "coffeemachine" }
+  ],
+  "stop": 25
+}

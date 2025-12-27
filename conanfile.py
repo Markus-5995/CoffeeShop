@@ -23,7 +23,7 @@ class coffeeshopRecipe(ConanFile):
         self.requires("sfml/2.6.2")
         self.requires("boost/1.85.0")
         self.requires("libxml2/2.15.0")
-        self.requires("gtest/1.17.0")
+        self.requires("nlohmann_json/3.12.0")
 
     def layout(self):
         cmake_layout(self)

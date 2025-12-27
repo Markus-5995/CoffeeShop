@@ -17,9 +17,7 @@ add_library(MessageQueue SHARED
 
 target_link_libraries(MessageQueue
     PUBLIC
-    Concepts
-    PRIVATE
-    boost::boost)
+    Concepts)
 
 target_include_directories(MessageQueue
     PUBLIC

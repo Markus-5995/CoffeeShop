@@ -8,15 +8,13 @@ add_library(Report SHARED
 target_link_libraries(Report PUBLIC
     MessageQueue
     PRIVATE
-    LibXml2::LibXml2
-    boost::boost)
+    LibXml2::LibXml2)
 
 target_include_directories(Report PUBLIC
     include)
 
 target_compile_definitions(Report PRIVATE EXPORT_REPORT)
 
-#add_subdirectory(tests)
 
 add_executable(ReportApp
     main.cpp)

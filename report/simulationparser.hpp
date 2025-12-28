@@ -4,8 +4,8 @@
 #include "concepts/world.hpp"
 #include "streamwriter.hpp"
 
-
-namespace CoffeeShop {
+namespace CoffeeShop 
+{
 
 class SimulationParser
 {

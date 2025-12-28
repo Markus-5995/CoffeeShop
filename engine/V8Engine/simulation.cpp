@@ -1,60 +1,40 @@
-#include "engine/simulation.hpp"
-#include <ranges>
-#include <iostream>
+#include "simulation.hpp"
+#include <stdexcept>
+#ifdef V8_SUPPORT
+#include "v8pp-lab/runner.hpp"
+#include "v8pp-lab/scripts.hpp"
+#include "v8pp-lab/filelocator.hpp"
+#include "v8pp-lab/context.hpp"
+#include "coffeeshopmodule.hpp"
+#endif // V8_SUPPORT
 
 namespace CoffeeShop
 {
-	std::vector<std::shared_ptr<Actor>> toActors(const std::vector<V8Actor*> v8Actors)
-	{
-		auto actorsView = v8Actors
-			| std::views::filter([](V8Actor* actor) { return actor != nullptr; })
-			| std::views::transform([](V8Actor* actor) { return actor->get(); });
-
-		return { actorsView.begin(), actorsView.end() };
-	}
-
-	Simulation::Simulation(std::unique_ptr<Producer> producer) :
-		m_producer(std::move(producer))
+	V8Simulation::V8Simulation(std::unique_ptr<Producer> producer, std::string path) :
+		m_producer(std::move(producer)),
+		m_path(std::move(path))
 	{
 
 	}
-
-	void Simulation::start(std::vector<V8Actor*> v8actors)
+	void V8Simulation::run()
 	{
-		context.reset(new SimulationContext(toActors(v8actors), std::move(m_producer));
-	}
+#ifdef V8_SUPPORT
+		using namespace V8ppLab;
+		FileLocator locator(m_path);
+		std::tuple<std::vector<FileScript>> scripts{ locator.getScripts() };
 
-	void Simulation::run(v8::Local<v8::Function> function)
-	{
-		if (context == nullptr)
-		{
-			return;
-		}
+		CoffeeShop::CppModule coffeeModule(std::move(m_producer));
+		std::vector<CoffeeShop::CppModule> vec;
+		vec.push_back(std::move(coffeeModule));
+		std::tuple<std::vector<CoffeeShop::CppModule>> modules{ std::move(vec) };
 
-		auto* currentIsolate = v8::Isolate::GetCurrent();
-		while (!endConditionMet(function, currentIsolate))
-		{
-			context->runSimulation();
-		}
-	}
-	int Simulation::runtime() const
-	{
-		if (context != nullptr)
-		{
-			return context->getWorld().m_runtime;
-		}
-		return -1;
-	}
-	bool Simulation::endConditionMet(v8::Local<v8::Function>& function, v8::Isolate* isolate)
-	{
-		auto context = isolate->GetCurrentContext();
-		v8::Local<v8::Value> recv = context->Global();
 
-		v8::Local<v8::Value> result = v8pp::call_v8(isolate, function, recv);
-		if (!result.IsEmpty())
-		{
-			return v8pp::from_v8<bool>(isolate, result);
-		}
-		return true;
+		Runner<V8Context> runner{};
+		runner.loadModules(modules);
+		runner.run(scripts);
+		stopSrc.request_stop();
+#else
+		throw std::runtime_error("V8 not supported!");
+#endif // V8_SUPPORT
 	}
 }

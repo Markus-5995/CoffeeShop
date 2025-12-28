@@ -79,7 +79,6 @@ namespace CoffeeShop
 		boost::asio::buffer(header.data(), sizeof(std::uint32_t)),
 		boost::asio::buffer(message.payload().data(), message.size())
 		};
-		std::cout << "Sending message(" << header.at(0) << ")..." << std::endl;
 		boost::asio::async_write(socket, buffers,
 			bind_executor(connectionStrand,
 				std::bind(&TcpConnection::writeCompleted,

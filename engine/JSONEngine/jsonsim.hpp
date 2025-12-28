@@ -7,7 +7,7 @@ namespace CoffeeShop
 	{
 
 	public:
-		JsonSimulation(std::unique_ptr<Producer> producer, std::string path);
+		JsonSimulation(std::unique_ptr<Producer> producer, std::string path = DEFAULT_JSON_DIR);
 		void run();
 
 	private:

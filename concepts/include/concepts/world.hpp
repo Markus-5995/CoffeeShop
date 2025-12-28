@@ -13,8 +13,8 @@ using Owner = Actor;
 struct CONCEPTS_API World
 {
     bool transferOwnership(Owner* newOwner, Actor* target);
-    std::vector<Actor*> actors(uint32_t types = 0xFFFFFFFF);
-    std::vector<Actor*> getOwnedActors(Owner* owner, uint32_t types = 0xFFFFFFFF);
+    std::vector<Actor*> actors(std::uint32_t types = 0xFFFFFFFF);
+    std::vector<Actor*> getOwnedActors(Owner* owner, std::uint32_t types = 0xFFFFFFFF);
 
 
     template<class Archive>

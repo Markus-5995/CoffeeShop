@@ -12,7 +12,7 @@
 
 namespace CoffeeShop
 {
-using XmlNodeHandle = uint32_t;
+using XmlNodeHandle = std::uint32_t;
 
 struct Node
 {

@@ -10,8 +10,8 @@ namespace CoffeeShop
 class MSGQ_API MessageBus
 {
 public:
-    using ConsumerId = uint32_t;
-    using ProducerId = uint32_t;
+    using ConsumerId = std::uint32_t;
+    using ProducerId = std::uint32_t;
     enum DriverType
     {
         Undefined,

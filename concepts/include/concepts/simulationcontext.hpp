@@ -11,7 +11,7 @@ namespace CoffeeShop
 		const World& getWorld() const;
 	private:
 		World world{};
-		static inline uint32_t nextId = 1;
+		static inline std::uint32_t nextId = 1;
 	};
 
 }

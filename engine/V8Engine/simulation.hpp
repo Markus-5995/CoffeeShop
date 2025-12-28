@@ -1,25 +1,16 @@
 #pragma once
-#include "v8pp/call_v8.hpp"
+#include <memory>
 #include "messagequeue/producer.hpp"
-#include "v8wrappers.hpp"
-
 namespace CoffeeShop
 {
-class Simulation
-{
-public:
-    Simulation(std::unique_ptr<Producer> producer);
+	class V8Simulation
+	{
+	public:
+		V8Simulation(std::unique_ptr<Producer> producer, std::string path = DEFAULT_JS_DIR);
+		void run();
 
-    void start(std::vector<V8Actor*> v8actors);
-
-    void run(v8::Local<v8::Function> function);
-    int runtime() const;
-
-private:
-    bool endConditionMet(v8::Local<v8::Function>& function, v8::Isolate* isolate);
-
-    std::unique_ptr<SimulationContext> context;
-    std::unique_ptr <Producer> m_producer;
-};
-
-} // namespace CoffeeShop
+	private:
+		std::unique_ptr<Producer> m_producer;
+		std::string m_path;
+	};
+}

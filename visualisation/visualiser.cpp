@@ -10,62 +10,45 @@
 namespace CoffeeShop
 {
 
-Visualiser::Visualiser(std::unique_ptr<Consumer> consumer) :
-    consumer(std::move(consumer))
-{
-}
+	Visualiser::Visualiser(std::unique_ptr<Consumer> consumer) :
+		consumer(std::move(consumer))
+	{
+	}
 
-void Visualiser::run()
-{
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
-    std::string msg;
-    bool setup {};
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+	void Visualiser::run()
+	{
+		sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "My window");
+		ShopGenerator  generator{};
+		while (window.isOpen())
+		{
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
 
-        // clear the window with black color
-        window.clear(sf::Color::Black);
-        if (setup)
-        {
+			// clear the window with black color
+			window.clear(sf::Color::Black);
+			auto potentialMessage = consumer->get();
+			if (potentialMessage.has_value())
+			{
+				std::stringstream ss{};
+				ss << potentialMessage->operator std::string();
+				generator.update(ss);
+			}
 
-            auto potentialMessage = consumer->get();
-            if (potentialMessage.has_value() && ! potentialMessage->operator std::string().empty())
-            {
-                msg = *potentialMessage;
-            }
+			sf::Vector2f position{ 5.f, 5.f };
+			for (auto& ref : generator)
+			{
+				ref.setPosition(position);
+				window.draw(ref);
+				position.x += 50;
+			}
+			// end the current frame
+			window.display();
 
-            if (! msg.empty())
-            {
-                std::stringstream ss {};
-                ss << msg;
-                ShopGenerator generator (ss);
-                sf::Vector2f position {5.f, 5.f};
-                while(generator.hasNext())
-                {
-                    sf::Shape& ref = generator.next();
-                    ref.setPosition(position);
-                    window.draw(ref);
-                    position.x += 50;
-                }
-
-            }
-
-        }
-        else
-        {
-            setup = true;
-        }
-
-        // end the current frame
-        window.display();
-
-    }
-}
+		}
+	}
 
 } // namespace CoffeeShop

@@ -14,7 +14,7 @@ struct CONCEPTS_API Mug : public Actor
     static constexpr int s_threshold {20};
 
     void act() override;
-    uint32_t type() const override;
+    std::uint32_t type() const override;
 
     bool full() const;
     bool hot() const;

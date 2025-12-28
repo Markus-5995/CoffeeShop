@@ -1,5 +1,5 @@
 #include "coffeeshopmodule.hpp"
-#include "simulation.hpp"
+#include "v8engine.hpp"
 #include "v8pp/class.hpp"
 namespace CoffeeShop
 {
@@ -12,7 +12,7 @@ struct CppModule::Impl
     {
 
     }
-    Simulation simulation;
+    V8Engine simulation;
 };
 
 CppModule::CppModule(std::unique_ptr<Producer> producer) :
@@ -41,11 +41,11 @@ v8pp::module CppModule::generateModule(v8::Isolate *isolate) const
         .ctor()
         .inherit<V8Actor>();
 
-    v8pp::class_<Simulation> simulationClass(isolate);
+    v8pp::class_<V8Engine> simulationClass(isolate);
     simulationClass
-        .function("start", &Simulation::start)
-        .function("run", &Simulation::run)
-        .function("runtime", &Simulation::runtime);
+        .function("start", &V8Engine::start)
+        .function("run", &V8Engine::run)
+        .function("runtime", &V8Engine::runtime);
 
     v8pp::module module (isolate);
     module.class_("Actor", actorClass);

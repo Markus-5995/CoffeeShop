@@ -6,7 +6,7 @@ add_subdirectory(JSONEngine)
 add_library(Engine SHARED
     include/engine/engine.hpp
     include/engine/engineexport.hpp
-    engine.cpp)
+    engine.cpp "V8Engine/simulation.cpp")
 
 target_link_libraries(Engine
     PUBLIC
@@ -17,9 +17,6 @@ target_link_libraries(Engine
     CppEngine
     JSONEngine)
     
-target_compile_definitions(Engine
-    PRIVATE
-    DEFAULT_JSON_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../jsonrecipes/CoffeeShopConfig.json")
 
 target_include_directories(Engine
     PUBLIC

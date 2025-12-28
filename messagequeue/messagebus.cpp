@@ -39,16 +39,16 @@ MessageBus::~MessageBus() = default;
 
 MessageBus::ProducerId MessageBus::registerProducer()
 {
-    uint32_t& nextId = m_impl->nextProducerId;
+    std::uint32_t& nextId = m_impl->nextProducerId;
     nextId++;
     std::visit([nextId](auto & driver) { driver.registerAsServer(nextId);},
                m_impl->m_driver);
     return nextId;
 }
 
-uint32_t MessageBus::registerConsumer()
+std::uint32_t MessageBus::registerConsumer()
 {
-    uint32_t& nextId = m_impl->nextConsumerId;
+    std::uint32_t& nextId = m_impl->nextConsumerId;
     nextId++;
     std::visit([nextId](auto& driver) { driver.registerAsClient(nextId); },
                m_impl->m_driver);
@@ -73,7 +73,6 @@ std::optional<Message> MessageBus::waitForNext(ConsumerId id)
                         m_impl->m_driver);
 
     static int i {};
-    std::cout << "Waited for message #" << ++i << std::endl;
     return m;
 }
 

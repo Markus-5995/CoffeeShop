@@ -10,7 +10,7 @@ void Mug::act()
     temperature = std::max(0, temperature - 5);
 }
 
-uint32_t Mug::type() const
+std::uint32_t Mug::type() const
 {
     return ActorTypes::MugType;
 }

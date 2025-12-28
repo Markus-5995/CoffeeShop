@@ -30,7 +30,7 @@ bool World::transferOwnership(Owner *newOwner, Actor *target)
     return true;
 }
 
-std::vector<Actor *> World::actors(uint32_t types)
+std::vector<Actor *> World::actors(std::uint32_t types)
 {
     auto view = m_actors
                 | std::views::filter([types](const auto& actorPair){return actorPair.first->type() & types;})
@@ -39,7 +39,7 @@ std::vector<Actor *> World::actors(uint32_t types)
     return {view.begin(), view.end()};
 }
 
-std::vector<Actor *> World::getOwnedActors(Owner *owner, uint32_t types)
+std::vector<Actor *> World::getOwnedActors(Owner *owner, std::uint32_t types)
 {
     auto view = m_actors
                 | std::views::filter([owner](const auto& actorPair){return actorPair.second == owner;})

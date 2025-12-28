@@ -9,7 +9,7 @@ class CONCEPTS_API CoffeeMachine : public Actor
 public:
     void act() override;
     void interact(World &world) override;
-    uint32_t type() const override
+    std::uint32_t type() const override
     {
         return ActorTypes::CoffeeMachineType;
     }

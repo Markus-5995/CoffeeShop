@@ -25,7 +25,7 @@ C++ and Java Script. An interesting point about this integration is *life time m
 shared between C++ and Java Script, two types of *life time managment systems* collide. JS's garbage collector and 
 C++ "self managed clean up". In order to synergize these two mechanisms the following solution has been chosen by the
 Coffee Shop.
-´´´
+```
 struct MyActor
 {
 	void doStuff() {std::cout << "Stuff" << std::endl;}
@@ -37,7 +37,7 @@ struct V8Wrapper
 	void doStuff () {m_actor->doStuff();}
 	std::shared_ptr<MyActor> m_actor {};
 };
-´´´
+```
 As one can see, this allows Java Script to create its own instance of MyActor and share it with C++ in a safe fashion.
 With this approach, it doesn't matter when JS's garbage collector cleans up the wrapper, as long as C++ holds a 
 reference, the underlying actor is still valid.
